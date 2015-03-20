@@ -6,6 +6,11 @@
 	"version": "1.0",
 	
 	"browser_action": {
+		"default_icon": "extension_button.png",
 		"default_popup": "QuickSummonerHTML.html"
+	},
+	
+	"icons": {
+		"48": "extension_icon_48.png"
 	}
 }
