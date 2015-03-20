@@ -43,7 +43,7 @@ function setPromoImg(game_num, game_outcome) {
 		document.getElementById('promo_game_' + game_num + '_img').src = "misc_icons/lost_promotion.png";
 	if (game_outcome == "W")
 		document.getElementById('promo_game_' + game_num + '_img').src = "misc_icons/won_promotion.png";
-	if (game_outcome == "-")
+	if (game_outcome == "N")
 		document.getElementById('promo_game_' + game_num + '_img').src = "misc_icons/unplayed_promotion.png";
 		
 	
@@ -74,10 +74,14 @@ function getRankedTier(summonerID, serverCode) {
 					document.getElementById('promo_game_5').hidden = false;
 					setPromoImg(4, games_outcome.charAt(3));
 				}
+				else {
+					document.getElementById('promo_game_4').hidden = true;
+					document.getElementById('promo_game_5').hidden = true;
+				}
 			}
 			else {
 				for (var i = 1; i <= 5; i++) {
-					setPromoImg(i, "-");
+					setPromoImg(i, "N");
 				}
 				document.getElementById('promo_game_1').hidden = true;
 				document.getElementById('promo_game_2').hidden = true;
@@ -114,6 +118,15 @@ function getRankedTier(summonerID, serverCode) {
 			document.getElementById('content_window2').hidden = false;
 		}
 		else {
+			for (var i = 1; i <= 5; i++) {
+				setPromoImg(i, "N");
+			}
+			document.getElementById('promo_game_1').hidden = true;
+			document.getElementById('promo_game_2').hidden = true;
+			document.getElementById('promo_game_3').hidden = true;
+			document.getElementById('promo_game_4').hidden = true;
+			document.getElementById('promo_game_5').hidden = true;
+			document.getElementById('series_text').innerHTML = "";
 			document.getElementById('content_summonerRANK_img').src = "ranked_img/unknown.png";
 			document.getElementById('content_summonerRANK_text').innerHTML = "Unranked";
 			document.getElementById('content_summonerLP_result').style.height = "8px";
