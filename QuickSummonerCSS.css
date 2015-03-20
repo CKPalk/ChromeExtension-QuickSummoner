@@ -1,0 +1,181 @@
+@import url(http://fonts.googleapis.com/css?family=Montserrat);
+
+html {
+	width: 398px;
+	background-color: #F1F1F1;
+}
+
+#summoner_input_value {
+	width: 200px;
+	height: 24px;
+	font-size: 16px;
+	padding-right: 0px;
+	padding-left: 10px;
+	border: none;
+	outline: none;
+	background-color: #0C0C0C;
+	color: #F1F1F1;
+	font-family: "Lucida Sans Unicode", "Lucida Grande", sans-serif;
+}
+
+#summoner_input_value:hover::-webkit-input-placeholder {
+	color: #7B51AB;
+}
+
+#summoner_input_value:focus::-webkit-input-placeholder {
+	color: #7B51AB;
+}
+
+#server {
+	width: 170px;
+	height: 26px;
+	display: inline;
+	border: none;
+	outline: none;
+	font-size: 16px;
+	color: #F1F1F1;
+	-webkit-appearance: none;
+	padding-left: 0px;
+	text-align: right;
+	background: url(DropDownArrow.png);
+	background-repeat: no-repeat;
+	background-position: 95% 50%;
+	background-color: #0C0C0C;
+}
+
+#server:hover {
+	background: url(DropDownArrowHover.png);
+	background-repeat: no-repeat;
+	background-position: 95% 50%;
+	background-color: #0C0C0C;
+}
+
+#server:focus {
+	background: url(DropDownArrowHover.png);
+	background-repeat: no-repeat;
+	background-position: 95% 50%;
+	background-color: #0C0C0C;
+}
+
+.content_wrapper {
+	background-color: #0C0C0C;
+	margin-left: 1px;
+	margin-top: 10px;
+	color: #7B51AB;
+	position: relative;
+}
+
+#content_summoner_wrapper {
+	position: abosolute;
+	top: 0px;
+	right: 0px;
+	height: 106px;
+}
+
+#content_window2 {
+	width: 240px;
+	padding-left: 10px;
+	color: #F1F1F1;
+	font-family: "Lucida Sans Unicode", "Lucida Grande", sans-serif;
+	font-size: 16px;
+}
+
+#content_summonerNAME {
+	position: relative;
+	top: calc(40% - 16px);
+	left: 10px;
+	font-family: 'Montserrat', sans-serif;
+	font-weight: bold;
+	font-size: 32px;
+	line-height: 32px;
+}
+
+#content_summonerLVL {
+	position: relative;
+	top: 28%;
+	left: 12px;
+	font-family: "Lucida Sans Unicode", "Lucida Grande", sans-serif;
+	font-size: 16px;
+	color: #B1B1B1;
+	line-height: 16px;
+}
+
+#content_summonerLP_background {
+	position: absolute;
+	color: #F1F1F1;
+	height: 90px;
+	width: 8px;
+	top: 8px;
+	right: 95px;
+	line-height: 12px;
+	background-color: #1D1D1D;
+	border-radius: 4px 4px 4px 4px;
+}
+
+#content_summonerLP_result {
+	position: absolute;
+	height: 8px;
+	width: 8px;
+	bottom: 0px;
+	background-color: #553285;
+	border-radius: 4px 4px 4px 4px;
+	text-align: center;
+}
+
+#content_summonerLP_low_result {
+	position: absolute;
+	width: 8px;
+	top: 0px;
+	text-align: center;
+	
+}
+
+#content_summonerRANK_wrapper {
+	overflow: hidden;
+	position: absolute;
+	text-align: center;
+	top: 8px;
+	right: 12px;
+	height: 90px;
+	background-color: #1D1D1D;
+	border-radius: 5px 5px 5px 5px;
+}
+
+#content_summonerRANK_img {
+	overflow: hidden;
+	margin-top: -6px;
+	margin-right: -2px;	
+}
+
+#content_summonerRANK_text {
+	position: absolute;
+	overflow: hidden;
+	top: 70px;
+	right: 1px;
+	width: 78px;
+	text-align: center;
+	font-weight: bold;
+	color: #7B51AB;
+	font-family: "Lucida Sans Unicode", "Lucida Grande", sans-serif;
+	font-size: 12px;
+	line-height: 14px;
+}
+
+.promo_game_item {
+	margin-right: 4px;
+}
+
+#series_text {
+	display: inline-block;
+	vertical-align: top;
+	margin-right: 8px;
+}
+
+#content_summonerPROMO {
+	position: absolute;
+	overflow: hidden;
+	bottom: 6px;
+	left: 12px;
+	font-weight: bold;
+	line-width: 16px;
+}

@@ -1,0 +1,55 @@
+<!doctype html>
+<html>
+	<head>
+		<title>League Statistics</title>
+		<link rel="stylesheet" type="text/css" href="QuickSummonerCSS.css">
+		<script src="QuickSummonerJS.js"></script>
+		<link href='http://fonts.googleapis.com/css?family=Montserrat' rel='stylesheet' type='text/css'>
+	</head>
+	<body>
+		<div id="summoner_input">
+			<input id="summoner_input_value" type="text" placeholder="Summoner Name"><!--
+		 --><select id="server">
+				<option value="NA">North America</option>
+				<option value="EU West">EU West</option>
+				<option value="EU Nordic & East">EU Nordic & East</option>
+				<option value="Latin America North">Latin America North</option>
+				<option value="Latin America South">Latin America South</option>
+				<option value="Brazil">Brazil</option>
+				<option value="Russia">Russia</option>
+				<option value="Turkey">Turkey</option>
+				<option value="Oceania">Oceania</option>
+				<option value="Republic of Korea">Republic of Korea</option>
+			</select>
+		</div>
+		<div class="content_wrapper" id="content_window1" hidden="true">
+			<div id="content_summoner_wrapper">
+				<span id="content_summonerNAME"></span><br>
+				<span id="content_summonerLVL"></span>
+				<span id="content_summonerLP_background">
+					<span id="content_summonerLP_result"></span>
+					<span id="content_summonerLP_low_result"></span>
+				</span>
+				<span id="content_summonerRANK_wrapper">
+					<img src="ranked_img/unknown.png" id="content_summonerRANK_img" height="80" width="80">
+					<span id="content_summonerRANK_text"></span>
+				</span>
+				<span id="content_summonerPROMO">
+					<span id="series_text" class="promo_game_item"></span>
+					<!-- unplayed: misc_icons/unplayed_promotion.png 		lost: misc_icons/lost_promotion.png 		won: misc_icons/won_promotion.png -->
+					<span id="promo_game_1" hidden="true"><img src="misc_icons/unplayed_promotion.png" class="promo_game_item" id="promo_game_1_img" height="16px" width="16px"></span>
+					<span id="promo_game_2" hidden="true"><img src="misc_icons/unplayed_promotion.png" class="promo_game_item" id="promo_game_2_img" height="16px" width="16px"></span>
+					<span id="promo_game_3" hidden="true"><img src="misc_icons/unplayed_promotion.png" class="promo_game_item" id="promo_game_3_img" height="16px" width="16px"></span>
+					<span id="promo_game_4" hidden="true"><img src="misc_icons/unplayed_promotion.png" class="promo_game_item" id="promo_game_4_img" height="16px" width="16px"></span>
+					<span id="promo_game_5" hidden="true"><img src="misc_icons/unplayed_promotion.png" class="promo_game_item" id="promo_game_5_img" height="16px" width="16px"></span>
+				</span>
+			</div>
+		</div>
+		<div class="content_wrapper" id="content_window2" hidden="true">
+			<span id="max_game1">Game: 1</span><br>
+			<span id="max_game2">Game: 2</span><br>
+			<span id="max_game3">Game: 3</span>
+		</div>
+		
+	</body>
+</html>

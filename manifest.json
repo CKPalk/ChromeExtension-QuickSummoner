@@ -1,0 +1,11 @@
+{
+	"manifest_version": 2,
+	
+	"name": "Quick Summoner",
+	"description": "Grab quick information on any summoner, any time!",
+	"version": "1.0",
+	
+	"browser_action": {
+		"default_popup": "QuickSummonerHTML.html"
+	}
+}
