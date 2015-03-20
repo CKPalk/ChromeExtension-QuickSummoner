@@ -2,6 +2,7 @@ function getSummoner(name, serverCode) {
 	var parsed_name = name.toLowerCase().replace(" ", "");
 
 	var xmlhttp = new XMLHttpRequest();
+	// https://na.api.pvp.net/api/lol/na/v1.4/summoner/by-name/0xThoth?api_key=7d6ae555-333f-48af-b119-1b2fa5d415f9
 	var url = 'https://' + serverCode + '.api.pvp.net/api/lol/' + serverCode + '/v1.4/summoner/by-name/' + parsed_name + '?api_key=7d6ae555-333f-48af-b119-1b2fa5d415f9';
 
 	xmlhttp.open('GET', url);
@@ -16,9 +17,8 @@ function getSummoner(name, serverCode) {
 		getRankedTier(summoner_ID, serverCode);
 		
 		var summoner_LVL = summoner_result.summonerLevel;
-		//getMatchHistory(summonerID);
 		document.getElementById('content_summonerNAME').innerHTML = summoner_NAME;
-		document.getElementById('content_summonerLVL').innerHTML = "Level " + summoner_LVL; //+ "  ID: " + summoner_ID;
+		document.getElementById('content_summonerLVL').innerHTML = "Level " + summoner_LVL + "  ID: " + summoner_ID;
 	}
 
 	xmlhttp.send();
@@ -26,6 +26,7 @@ function getSummoner(name, serverCode) {
 
 function getTopGameCounts(summonerID, serverCode) {
 	var xmlhttp = new XMLHttpRequest();
+	// https://na.api.pvp.net/api/lol/na/v1.3/stats/by-summoner/33011944/summary?&api_key=7d6ae555-333f-48af-b119-1b2fa5d415f9
 	var url = 'https://' + serverCode + '.api.pvp.net/api/lol/' + serverCode + '/v1.3/stats/by-summoner/' + summonerID + '/summary?&api_key=7d6ae555-333f-48af-b119-1b2fa5d415f9';
 	
 	xmlhttp.open('GET', url);
@@ -50,6 +51,7 @@ function setPromoImg(game_num, game_outcome) {
 
 function getRankedTier(summonerID, serverCode) {
 	var xmlhttp = new XMLHttpRequest();
+	// https://na.api.pvp.net/api/lol/na/v2.5/league/by-summoner/33011944/entry?api_key=7d6ae555-333f-48af-b119-1b2fa5d415f9
 	var url = 'https://' + serverCode.toLowerCase() + '.api.pvp.net/api/lol/' + serverCode.toLowerCase() + '/v2.5/league/by-summoner/' + summonerID + '/entry?api_key=7d6ae555-333f-48af-b119-1b2fa5d415f9';
 	xmlhttp.open('GET', url);
 	xmlhttp.onload = function() {
