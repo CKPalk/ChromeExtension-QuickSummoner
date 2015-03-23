@@ -123,7 +123,7 @@ function getRankedTier(summonerID, serverCode) {
 				document.getElementById('content_summonerLP_low_result').innerHTML = summoner_LP_text;
 			}
 			document.getElementById('content_window1').hidden = false;
-			document.getElementById('content_window2').hidden = false;
+			// document.getElementById('content_window2').hidden = false;
 		}
 		if (xmlhttp.status == 404) {
 			for (var i = 1; i <= 5; i++) {
@@ -141,7 +141,7 @@ function getRankedTier(summonerID, serverCode) {
 			document.getElementById('content_summonerLP_result').innerHTML = "";
 			document.getElementById('content_summonerLP_result').style.height = "8px";
 			document.getElementById('content_window1').hidden = false;
-			document.getElementById('content_window2').hidden = false;
+			// document.getElementById('content_window2').hidden = false;
 		}
 	}
 	
@@ -187,13 +187,42 @@ function getTopChamps(summoner_ID, serverCode) {
 						}
 					}
 				}
-				var champ1 = champions[champ1_index];
-				var champ2 = champions[champ2_index];
-				var champ3 = champions[champ3_index];
-				setChampStat(1 , champ1.id);
-				setChampStat(2 , champ2.id);
-				setChampStat(3 , champ3.id);
+				
+				if (champ1_index) {
+					var champ1 = champions[champ1_index];
+					setChampStat(1 , champ1.id);
+					setChampGameStats(1, champ1.stats.totalSessionsWon, champ1.stats.totalSessionsLost);
+				}
+				else {
+					setChampStat(1 , 0);
+					setChampGameStats(1, 0, 0);
+				}
+				
+				if (champ2_index) {
+					var champ2 = champions[champ2_index];
+					setChampStat(2 , champ2.id);
+					setChampGameStats(2, champ2.stats.totalSessionsWon, champ2.stats.totalSessionsLost);
+				}
+				else {
+					setChampStat(2 , 0);
+					setChampGameStats(2, 0, 0);
+				}
+				
+				if (champ3_index) {
+					var champ3 = champions[champ3_index];
+					setChampStat(3 , champ3.id);
+					setChampGameStats(3, champ3.stats.totalSessionsWon, champ3.stats.totalSessionsLost);
+				}
+				else {
+					setChampStat(3 , 0);
+					setChampGameStats(3, 0, 0);
+				}
+				
 				document.getElementById('ChampStats').hidden = false;
+				
+				for (var i = 0; i < champCount; i++) {
+					addToChampPool(champions[i].id, champions[i].stats.totalSessionsWon, champions[i].stats.totalSessionLost);
+				}
 			}
 			else {
 				document.getElementById('ChampStats').hidden = true;
@@ -205,6 +234,49 @@ function getTopChamps(summoner_ID, serverCode) {
 		xmlhttp.send();
 }
 
+function addToChampPool(champID, champWINS, champLOSSES) {
+	var xmlhttp = new XMLHttpRequest();
+	var url = 'https://global.api.pvp.net/api/lol/static-data/na/v1.2/champion/' + champID + '?&api_key=7d6ae555-333f-48af-b119-1b2fa5d415f9';
+	xmlhttp.open('GET', url);
+	xmlhttp.onload = function() {
+		var response = JSON.parse(xmlhttp.response);
+		var champNAME = response.name;
+		var champKEY = response.key.toUpperCase();
+		
+		var champSTAT = {};
+		
+		champSTAT.ID = champID;
+		champSTAT.name = champNAME;
+		champSTAT.wins = champWINS;
+		champSTAT.losses = champLOSSES;
+		
+		ChampData[champKEY] = champSTAT;
+	}
+	xmlhttp.send();
+}
+
+function setChampGameStats(slot, total_won, total_lost) {
+	if (total_won != 0 || total_lost != 0) {
+		document.getElementById('champ' + slot + '_game_wins').innerHTML = total_won;
+		document.getElementById('champ' + slot + '_fill').innerHTML = "-";
+		document.getElementById('champ' + slot + '_game_lost').innerHTML = total_lost;
+	}
+	else {
+		document.getElementById('champ' + slot + '_game_wins').innerHTML = "";
+		document.getElementById('champ' + slot + '_fill').innerHTML = "";
+		document.getElementById('champ' + slot + '_game_lost').innerHTML = "";
+	}
+}
+
+function setChampImage(slot, key) {
+	if (key) {
+		var filename = 'champ_img\\' + key + '.png';
+		document.getElementById('champ' + slot + '_image').src = filename;
+	}
+	else
+		document.getElementById('champ' + slot + '_image').src = "//:0";
+}
+
 function setChampStat(slot, champ_ID) {
 	if (champ_ID != 0) {
 		var xmlhttp = new XMLHttpRequest();
@@ -214,10 +286,26 @@ function setChampStat(slot, champ_ID) {
 		xmlhttp.onload = function() {
 			var response = JSON.parse(xmlhttp.response);
 			document.getElementById('champ' + slot + '_name').innerHTML = response.name;
+			
+			if (slot == 1 && !topChamp1.hasOwnProperty("key")) {
+				topChamp1.key = response.key;
+				topChamp1.name = reponse.name;
+			}
+			if (slot == 2 && !topChamp2.hasOwnProperty("key")) {
+				topChamp2.key = response.key;
+				topChamp2.name = response.name;
+			}
+			if (slot == 3 && !topChamp3.hasOwnProperty("key")) {
+				topChamp3.key = response.key;
+				topChamp3.name = response.name;
+			}
+			
+			setChampImage(slot, response.key);
 		}
 		xmlhttp.send();
 	}
 	else {
+		document.getElementById('champ' + slot + '_image').src = "//:0";
 		document.getElementById('champ' + slot + '_name').innerHTML = "";
 	}
 }
@@ -245,17 +333,56 @@ function getMatchHistory(summonerID) {
 	xmlhttp.send();
 } 
 */
+
 var server = "NA";
+var ChampData = {};
+
+var topChamp1 = {};
+var topChamp2 = {};
+var topChamp3 = {};
+
+var searchChamp1 = {};
+var searchChamp2 = {};
+var searchChamp3 = {};
+
 document.addEventListener('DOMContentLoaded', function() {
 	var summoner_input_value = document.getElementById('summoner_input_value');
-	document.getElementById('summoner_input_value').focus();
-	document.getElementById('summoner_input_value').addEventListener('click', function() { this.value = ""; });
-	document.getElementById('summoner_input_value').addEventListener('keypress', function(e) {
+	var champion_input_value = document.getElementById('champion_input_value');
+	summoner_input_value.focus();
+	summoner_input_value.addEventListener('click', function() { this.value = ""; });
+	summoner_input_value.addEventListener('keypress', function(e) {
 		if (e.keyCode === 13) {
 			server = document.getElementById('server').value;
 			var input = summoner_input_value.value;
 			getSummoner(input, server);
-			document.getElementById('summoner_input_value').blur();
+			summoner_input_value.blur();
 		}
+	});
+	champion_input_value.addEventListener('keyup', function() {
+		var input = champion_input_value.value.toUpperCase();
+		if (input.length > 0) {
+			searchChamp1 = {};
+			searchChamp2 = {};
+			searchChamp3 = {};
+			for (var key in ChampData) {
+				if (key.indexOf(input) > -1) {
+					if (!searchChamp1.hasOwnProperty("key"))
+						searchChamp1.key = key;
+					else if (!searchChamp2.hasOwnProperty("key"))
+						searchChamp2.key = key;
+					else if (!searchChamp3.hasOwnProperty("key"))
+						searchChamp3.key = key;
+				}
+			}
+			setChampImage(1, searchChamp1.key);
+			setChampImage(2, searchChamp2.key);
+			setChampImage(3, searchChamp3.key);
+		}
+		else {
+			setChampImage(1, topChamp1.key);
+			setChampImage(2, topChamp2.key);
+			setChampImage(3, topChamp3.key);
+		}
+		// document.getElementById('champion_input_value').blur();
 	});
 });

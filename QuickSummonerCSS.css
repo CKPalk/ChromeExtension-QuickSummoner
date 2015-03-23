@@ -37,21 +37,21 @@ html {
 	-webkit-appearance: none;
 	padding-left: 0px;
 	text-align: right;
-	background: url(DropDownArrow.png);
+	background: url(misc_icons/DropDownArrow.png);
 	background-repeat: no-repeat;
 	background-position: 95% 50%;
 	background-color: #0C0C0C;
 }
 
 #server:hover {
-	background: url(DropDownArrowHover.png);
+	background: url(misc_icons/DropDownArrowHover.png);
 	background-repeat: no-repeat;
 	background-position: 95% 50%;
 	background-color: #0C0C0C;
 }
 
 #server:focus {
-	background: url(DropDownArrowHover.png);
+	background: url(misc_icons/DropDownArrowHover.png);
 	background-repeat: no-repeat;
 	background-position: 95% 50%;
 	background-color: #0C0C0C;
@@ -180,7 +180,7 @@ html {
 	line-width: 16px;
 }
 
-#champion_user_input {
+#champion_input_value {
 	width: calc(100% - 10px);
 	height: 24px;
 	font-size: 16px;
@@ -204,8 +204,16 @@ html {
 
 .champImage {
 	display: inline-block;
-	width: 80px;
-	height: 80px;
+	width: 70px;
+	height: 70px;
+	border-radius: 0%;
+	overflow: hidden;
+	margin-left: 5px;
+	margin-bottom: 5px;
+}
+
+#champ1, #champ2 {
+	border-bottom: 2px solid #0C0C0C;
 }
 
 .champContent {
@@ -219,4 +227,31 @@ html {
 	position: absolute;
 	left: 10px;
 	top: 10px;
+	font-size: 18px;
+	font-weight: bold;
+}
+
+.champ_image {
+	margin-left: -5px;
+	margin-top: -5px;
+}
+
+.champ_game_stats {
+	position: absolute;
+	top: 35px;
+	left: 12px;
+	font-size: 14px;
+	color: #B1B1B1;
+}
+
+.champ_game_wins {
+	color: #39B54A;
+}
+
+.champ_game_fill {
+
+}
+
+.champ_game_lost {
+	color: #EE282E;
 }
