@@ -96,17 +96,21 @@ function getRankedTier(summonerID, serverCode) {
 				document.getElementById('series_text').innerHTML = "";
 			}
 			
-			var summoner_LP_text;
-			if (summoner_LP == 100)
-				summoner_LP_text = "1<br>0<br>0";
-			else if (summoner_LP < 10)
+			var summoner_LP_text = "";
+			if (summoner_LP < 10)
 				summoner_LP_text = summoner_LP + "";
+			else if (summoner_LP >= 100) {
+				for (var i = 0; i < summoner_LP.toString().length; i++) {
+					summoner_LP_text += summoner_LP.toString().charAt(i);
+					summoner_LP_text += "<br>";
+				}
+			}
 			else
 				summoner_LP_text = (Math.floor(summoner_LP / 10)) + "<br>" + (summoner_LP % 10);
 				
 			var LP_bar_height = 8;
 			if (summoner_LP > 8) {
-				LP_bar_height = Math.round((summoner_LP / 100) * 90);
+				LP_bar_height = Math.min(Math.round((summoner_LP / 100) * 90), 90);
 			}
 			var ranked_filename = "ranked_img/" + summoner_TIER + "_" + summoner_DIVISION + ".png";
 			var ranked_text = summoner_TIER.charAt(0) + summoner_TIER.slice(1).toLowerCase() + " " + summoner_DIVISION;
@@ -159,8 +163,8 @@ function getTopChamps(summoner_ID, serverCode) {
 				var champions = response.champions;
 				var champ1_index, champ2_index, champ3_index;
 				var champCount = champions.length;
+				
 				var topValue = 0;
-
 				for (var i = 0; i < champCount; i++) {
 					if (champions[i].id != 0) {
 						if (champions[i].stats.totalSessionsPlayed > topValue) {
@@ -218,10 +222,10 @@ function getTopChamps(summoner_ID, serverCode) {
 					setChampGameStats(3, 0, 0);
 				}
 				
-				document.getElementById('ChampStats').hidden = false;
+				
 				
 				for (var i = 0; i < champCount; i++) {
-					addToChampPool(champions[i].id, champions[i].stats.totalSessionsWon, champions[i].stats.totalSessionLost);
+					addToChampPool(champions[i].id, champions[i].stats.totalSessionsWon, champions[i].stats.totalSessionsLost);
 				}
 			}
 			else {
@@ -257,6 +261,18 @@ function addToChampPool(champID, champWINS, champLOSSES) {
 
 function setChampGameStats(slot, total_won, total_lost) {
 	if (total_won != 0 || total_lost != 0) {
+		if (slot == 1) {
+			topChamp1.wins = total_won;
+			topChamp1.losses = total_lost;
+		}
+		if (slot == 2) {
+			topChamp2.wins = total_won;
+			topChamp2.losses = total_lost;
+		}
+		if (slot == 3) {
+			topChamp3.wins = total_won;
+			topChamp3.losses = total_lost;
+		}
 		document.getElementById('champ' + slot + '_game_wins').innerHTML = total_won;
 		document.getElementById('champ' + slot + '_fill').innerHTML = "-";
 		document.getElementById('champ' + slot + '_game_lost').innerHTML = total_lost;
@@ -272,9 +288,64 @@ function setChampImage(slot, key) {
 	if (key) {
 		var filename = 'champ_img\\' + key + '.png';
 		document.getElementById('champ' + slot + '_image').src = filename;
+		if (slot == 3)
+			document.getElementById('ChampStats').hidden = false;
 	}
 	else
 		document.getElementById('champ' + slot + '_image').src = "//:0";
+}
+
+function setTopStats(slot, key) {
+	if (key) {
+		var champNAME;
+		var champWINS;
+		var champLOSSES;
+		if (slot == 1) {
+			champNAME = topChamp1.name;
+			champWINS = topChamp1.wins;
+			champLOSSES = topChamp1.losses;
+		}
+		else if (slot == 2) {
+			champNAME = topChamp2.name;
+			champWINS = topChamp2.wins;
+			champLOSSES = topChamp2.losses;
+		}
+		else {
+			champNAME = topChamp3.name;
+			champWINS = topChamp3.wins;
+			champLOSSES = topChamp3.losses;
+		}
+		
+		document.getElementById('champ' + slot + '_name').innerHTML = champNAME;
+		document.getElementById('champ' + slot + '_game_wins').innerHTML = champWINS;
+		document.getElementById('champ' + slot + '_fill').innerHTML = "-";
+		document.getElementById('champ' + slot + '_game_lost').innerHTML = champLOSSES;
+	}
+	else {
+		document.getElementById('champ' + slot + '_name').innerHTML = "";
+		document.getElementById('champ' + slot + '_game_wins').innerHTML = "";
+		document.getElementById('champ' + slot + '_fill').innerHTML = "";
+		document.getElementById('champ' + slot + '_game_lost').innerHTML = "";
+	}
+}
+
+function setSearchedStats(slot, key) {
+	if (key) {
+		var champNAME = ChampData[key].name;
+		var champWINS = ChampData[key].wins;
+		var champLOSSES = ChampData[key].losses;
+		
+		document.getElementById('champ' + slot + '_name').innerHTML = champNAME;
+		document.getElementById('champ' + slot + '_game_wins').innerHTML = champWINS;
+		document.getElementById('champ' + slot + '_fill').innerHTML = "-";
+		document.getElementById('champ' + slot + '_game_lost').innerHTML = champLOSSES;
+	}
+	else {
+		document.getElementById('champ' + slot + '_name').innerHTML = "";
+		document.getElementById('champ' + slot + '_game_wins').innerHTML = "";
+		document.getElementById('champ' + slot + '_fill').innerHTML = "";
+		document.getElementById('champ' + slot + '_game_lost').innerHTML = "";
+	}
 }
 
 function setChampStat(slot, champ_ID) {
@@ -289,7 +360,7 @@ function setChampStat(slot, champ_ID) {
 			
 			if (slot == 1 && !topChamp1.hasOwnProperty("key")) {
 				topChamp1.key = response.key;
-				topChamp1.name = reponse.name;
+				topChamp1.name = response.name;
 			}
 			if (slot == 2 && !topChamp2.hasOwnProperty("key")) {
 				topChamp2.key = response.key;
@@ -310,30 +381,6 @@ function setChampStat(slot, champ_ID) {
 	}
 }
 
-/*
-function getMatchHistory(summonerID) {
-	var xmlhttp = new XMLHttpRequest();
-	var url = 'https://na.api.pvp.net/api/lol/na/v2.2/matchhistory/' + summonerID + '?api_key=7d6ae555-333f-48af-b119-1b2fa5d415f9';
-	
-	xmlhttp.open('GET', url);
-	
-	xmlhttp.onload = function() {
-		var server_response = JSON.parse(xmlhttp.response);
-		var match_id = server_response.matches[0].matchId;
-		var match_outcome = server_response.matches[0].participants[0].stats.winner;
-		if (match_outcome) {
-			document.getElementById('match0_outcome').textContent = "You won your last game.";
-		} 
-		else {
-			document.getElementById('match0_outcome').textContent = "You lost your last game.";
-		}
-		document.getElementById('content').hidden = false;
-	}
-	
-	xmlhttp.send();
-} 
-*/
-
 var server = "NA";
 var ChampData = {};
 
@@ -345,6 +392,12 @@ var searchChamp1 = {};
 var searchChamp2 = {};
 var searchChamp3 = {};
 
+/* TODO:
+*	total ranked games
+*	ranked active light (on / off)
+*	Alternative extension with only champ search and no top 3
+*/
+
 document.addEventListener('DOMContentLoaded', function() {
 	var summoner_input_value = document.getElementById('summoner_input_value');
 	var champion_input_value = document.getElementById('champion_input_value');
@@ -352,10 +405,19 @@ document.addEventListener('DOMContentLoaded', function() {
 	summoner_input_value.addEventListener('click', function() { this.value = ""; });
 	summoner_input_value.addEventListener('keypress', function(e) {
 		if (e.keyCode === 13) {
+			// Zero All Data
+			ChampData = {};
+			topChamp1 = {};
+			topChamp2 = {};
+			topChamp3 = {};
+			searchChamp1 = {};
+			searchChamp2 = {};
+			searchChamp3 = {};
 			server = document.getElementById('server').value;
-			var input = summoner_input_value.value;
+			var input = summoner_input_value.value.replace(" ", "");
 			getSummoner(input, server);
 			summoner_input_value.blur();
+			champion_input_value.value = "";
 		}
 	});
 	champion_input_value.addEventListener('keyup', function() {
@@ -374,14 +436,31 @@ document.addEventListener('DOMContentLoaded', function() {
 						searchChamp3.key = key;
 				}
 			}
+			
 			setChampImage(1, searchChamp1.key);
+			setSearchedStats(1, searchChamp1.key);
+			
 			setChampImage(2, searchChamp2.key);
+			setSearchedStats(2, searchChamp2.key);
+			
 			setChampImage(3, searchChamp3.key);
+			setSearchedStats(3, searchChamp3.key);
 		}
 		else {
-			setChampImage(1, topChamp1.key);
-			setChampImage(2, topChamp2.key);
-			setChampImage(3, topChamp3.key);
+			if (topChamp1.key) {
+				setChampImage(1, topChamp1.key);
+				setTopStats(1, topChamp1.key);
+			}
+			
+			if (topChamp2.key) {
+				setChampImage(2, topChamp2.key);
+				setTopStats(2, topChamp2.key);
+			}
+
+			if (topChamp3.key) {
+				setChampImage(3, topChamp3.key);
+				setTopStats(3, topChamp3.key);
+			}
 		}
 		// document.getElementById('champion_input_value').blur();
 	});
