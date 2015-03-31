@@ -5,6 +5,18 @@ html {
 	background-color: #F1F1F1;
 }
 
+.content_wrapper {
+	background-color: #0C0C0C;
+	margin-left: 1px;
+	margin-top: 10px;
+	color: #7B51AB;
+	position: relative;
+}
+
+#summoner_input {
+	overflow: hidden;
+}
+
 #summoner_input_value {
 	width: 200px;
 	height: 24px;
@@ -55,14 +67,6 @@ html {
 	background-repeat: no-repeat;
 	background-position: 95% 50%;
 	background-color: #0C0C0C;
-}
-
-.content_wrapper {
-	background-color: #0C0C0C;
-	margin-left: 1px;
-	margin-top: 10px;
-	color: #7B51AB;
-	position: relative;
 }
 
 #content_summoner_wrapper {

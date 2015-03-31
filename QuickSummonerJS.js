@@ -288,11 +288,11 @@ function setChampImage(slot, key) {
 	if (key) {
 		var filename = 'champ_img\\' + key + '.png';
 		document.getElementById('champ' + slot + '_image').src = filename;
-		if (slot == 3)
-			document.getElementById('ChampStats').hidden = false;
+		
 	}
 	else
 		document.getElementById('champ' + slot + '_image').src = "//:0";
+	document.getElementById('ChampStats').hidden = false;
 }
 
 function setTopStats(slot, key) {
