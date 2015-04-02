@@ -9,6 +9,10 @@
 		"default_icon": "extension_button.png",
 		"default_popup": "QuickSummonerHTML.html"
 	},
+
+	"permissions": [
+		"storage"
+	],
 	
 	"icons": {
 		"48": "extension_icon_48.png"

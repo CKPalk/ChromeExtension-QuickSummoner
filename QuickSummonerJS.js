@@ -381,6 +381,35 @@ function setChampStat(slot, champ_ID) {
 	}
 }
 
+function saveSummonerInputValue(nameToSave) {
+	if (!nameToSave) { alert("No name to save"); }
+
+	chrome.storage.sync.set({'summoner': nameToSave}, function () {
+		alert("chrome saved");
+	});
+}
+
+function getSummonerSavedValue(callback) {
+	chrome.storage.sync.get("summoner", callback);
+}
+
+function setSummonerSavedValue(nameToSet) {
+	document.getElementById('summoner_input_value').value = nameToSet;
+}
+
+function clearSavedSummoner() {
+	chrome.storage.sync.remove('summoner');
+}
+
+function testStorage() {
+	chrome.storage.sync.set({'test': 'cameron'}, function() {
+		alert('saved');
+		chrome.storage.sync.get('test', function (retValue) {
+			alert(getValue.value);
+		});
+	});
+}
+
 var server = "NA";
 var ChampData = {};
 
@@ -401,6 +430,11 @@ var searchChamp3 = {};
 document.addEventListener('DOMContentLoaded', function() {
 	var summoner_input_value = document.getElementById('summoner_input_value');
 	var champion_input_value = document.getElementById('champion_input_value');
+
+	// Check for users previous saved input
+	//getSummonerSavedValue(function (e) { alert(e.value); });
+	testStorage();
+
 	summoner_input_value.focus();
 	summoner_input_value.addEventListener('click', function() { this.value = ""; });
 	summoner_input_value.addEventListener('keypress', function(e) {
@@ -414,6 +448,7 @@ document.addEventListener('DOMContentLoaded', function() {
 			searchChamp2 = {};
 			searchChamp3 = {};
 			server = document.getElementById('server').value;
+			saveSummonerInputValue(summoner_input_value.value);
 			var input = summoner_input_value.value.replace(" ", "");
 			getSummoner(input, server);
 			summoner_input_value.blur();
