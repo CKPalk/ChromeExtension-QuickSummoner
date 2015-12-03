@@ -385,7 +385,7 @@ function saveSummonerInputValue(nameToSave) {
 	if (!nameToSave) { alert("No name to save"); }
 
 	chrome.storage.sync.set({'summoner': nameToSave}, function () {
-		alert("chrome saved");
+		//alert("chrome saved");
 	});
 }
 
@@ -403,9 +403,9 @@ function clearSavedSummoner() {
 
 function testStorage() {
 	chrome.storage.sync.set({'test': 'cameron'}, function() {
-		alert('saved');
+		//alert('saved');
 		chrome.storage.sync.get('test', function (retValue) {
-			alert(getValue.value);
+			//alert(getValue.value);
 		});
 	});
 }
